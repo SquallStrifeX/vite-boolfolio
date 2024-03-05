@@ -13,6 +13,6 @@ export default {
   <router-view></router-view>
 </template>
 
-<style scoped lang="scss">
-// 
+<style lang="scss">
+@use './styles/generals.scss' as *;
 </style>

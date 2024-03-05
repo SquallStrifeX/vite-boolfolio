@@ -12,8 +12,7 @@ export default {
             store,
             types:[],
             projects: [],
-            currentPage: 1,
-            lastPage: null,
+        
         }
     },
     created() {
@@ -21,17 +20,12 @@ export default {
         this.getTypes();
     },
     methods: {
-        getProjects(page_number) {
-            axios.get(`${this.store.endpoint}/api/projects`, {
-                params: {
-                    page: page_number
-                }
-            }).then((response) => {
-
+        getProjects() {
+            
+            axios.get(`${this.store.endpoint}/api/projects/type/${this.$route.params.slug}`).then((response) => {
                 // Applichiamo il valore della richiesta all array
-                this.projects = response.data.results.data;
-                this.currentPage = response.data.results.current_page;
-                this.lastPage = response.data.results.last_page;
+                this.projects = [];
+                this.projects = response.data.results;
             })
         },
         getTypes(){
@@ -49,25 +43,13 @@ export default {
         <div class="row">
             <div class="col-12">
                 <h4>Project types:</h4>
-                <div>
+                <div @click="getProjects()">
                     <router-link :to="{ name: 'projects_type', params:{ slug: project_type.slug }}" class="mx-3" v-for="project_type in types">{{ project_type.name }}</router-link>
                 </div>
             </div>
 
             <Project v-for="project in projects" :project="project" />
 
-            <div class="col-12">
-                <div class="page_button_container">
-                    <div>
-                        <button :class="currentPage == 1 ? 'disabled' : ''" @click=" getProjects(currentPage - 1)"
-                            class="btn btn-secondary"><i class="bi bi-chevron-left"></i></button>
-                    </div>
-                    <div>
-                        <button :class="currentPage == lastPage ? 'disabled' : ''" @click="getProjects(currentPage + 1)"
-                            class="btn btn-secondary"><i class="bi bi-chevron-right"></i></button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </template>

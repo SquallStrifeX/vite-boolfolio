@@ -38,18 +38,24 @@ export default {
 
 <template>
     <div class="col-2 m-5">
-        <div class="card" style="width: 15rem;">
+        
+            <div class="card" style="width: 15rem;">
             <img class="card-img-top " :src="getImage()" :alt="project.name">
             <div class="card-body">
                 <h5 class="card-title">{{ project.name }}</h5>
                 <p class="card-text">{{ project.description }}</p>
                 <p class="card-text">{{ project.type ? project.type.name : 'Nessuna tipologia specificata' }} </p>
-                <a href="#" class="btn btn-primary">Vai al dettaglio</a>
+
+                <router-link :to="{ name: 'detail_project', params: { slug: project.slug}}">
+                  <span class="btn btn-primary">Vai al dettaglio</span>
+                </router-link>
+
             </div>
         </div>
+        
     </div>
 </template>
 
 <style scoped lang="scss">
-
+@use '../styles/generals.scss' as *;
 </style>
